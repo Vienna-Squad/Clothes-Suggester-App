@@ -2,7 +2,6 @@ package org.example.di
 
 import org.example.domain.usecase.GetCurrentWeatherUseCase
 import org.example.domain.usecase.SuggestClothesUseCase
-import org.koin.core.module.Module
 import org.koin.dsl.module
 
 

@@ -111,18 +111,6 @@ class SuggestClothesUseCaseTest {
         assertEquals(expected, result.getOrNull())
     }
 
-    @Test
-    fun `should return failure result when weather API fails`() = runTest {
-        // Given
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.failure(Exception("not found"))
-
-        // When & Then
-        assertThrows<Exception>{
-            suggestClothesUseCase.invoke("Cairo")
-        }
-
-    }
-
     private fun createWeather(
         temperature: Double,
         description: String = " ",

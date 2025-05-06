@@ -8,9 +8,6 @@ class SuggestClothesUseCase(
 ) {
     suspend operator fun invoke(city: String): Result<ClothesSuggestion> {
 
-        weatherRepository.getWeather(city).onFailure {
-            throw Exception("not found")
-        }
         return weatherRepository.getWeather(city).map { weather ->
             when {
 

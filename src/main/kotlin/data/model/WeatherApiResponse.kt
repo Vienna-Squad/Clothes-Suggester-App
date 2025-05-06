@@ -39,7 +39,7 @@ data class CurrentWeather(
 @Serializable
 data class Condition(
     @SerialName("text")
-    val description: String,
+    val text: String,
 
     @SerialName("icon")
     val iconUrl: String

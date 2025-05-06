@@ -16,7 +16,8 @@ class WeatherRepositoryImpl(
                         country = response.location.country,
                         time = response.location.localtime,
                         temperature = response.current.temp_c,
-                        description = response.current.condition.description                    )
+                        description = response.current.condition.text?:"un known"
+                    )
                 }
             }
 

@@ -2,33 +2,29 @@ package org.example.presentation.controller
 
 import org.example.domain.usecase.SuggestClothesUseCase
 import org.example.presentation.UiController
+import org.koin.java.KoinJavaComponent.getKoin
 
 class SuggestClothesController(
-    private val suggestClothesUseCase: SuggestClothesUseCase
+    private val suggestClothesUseCase: SuggestClothesUseCase=getKoin().get()
 ):UiController {
 
     override suspend fun execute() {
         println("Enter city name:")
-        val input = readLine()?.trim().orEmpty()
+        val input = readln().trim()
 
-        if (input.isBlank()) {
-            println("City name cannot be empty")
+        try {
+            val result = suggestClothesUseCase.invoke(input)
+            result.onSuccess { clotheSuggestion->
+                println("top : ${clotheSuggestion.top}")
+                println("bottom : ${clotheSuggestion.bottom}")
+                println("accessories : ${clotheSuggestion.accessories}")
+
+            }
+        }catch (e:Exception){
+            println("Error: Failed to get clothing suggestion")
+
         }
 
-
-        val result = suggestClothesUseCase.invoke(input)
-
-        result.fold(
-            onSuccess = { suggestion ->
-                println("Clothing suggestion for $input:")
-                println("Top: ${suggestion.top}")
-                println("Bottom: ${suggestion.bottom}")
-                println("Accessories: ${suggestion.accessories}")
-            },
-            onFailure = { exception ->
-                println("Error: Failed to get clothing suggestion - ${exception.message}")
-            }
-        )
     }
 }
 
