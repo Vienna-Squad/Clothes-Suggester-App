@@ -40,6 +40,24 @@ class SuggestClothesUseCaseTest {
     }
 
     @Test
+    fun `should suggest very light clothes for very hot weather`() = runTest {
+        // Given
+        val weather = createWeather(temperature = 60.0)
+        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        val expected = ClothesSuggestion(
+            top = "Shirt",
+            bottom = "Shorts",
+            accessories = "None"
+        )
+
+        // When
+        val result = suggestClothesUseCase.invoke("Cairo")
+
+        // Then
+        assertEquals(expected, result.getOrNull())
+    }
+
+    @Test
     fun `should suggest warm clothes for cold weather`() = runTest {
         // Given
         val weather = createWeather(temperature = 5.0)
@@ -96,8 +114,7 @@ class SuggestClothesUseCaseTest {
     @Test
     fun `should return failure result when weather API fails`() = runTest {
         // Given
-        val exception = RuntimeException("Network error")
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.failure(exception)
+        coEvery { weatherRepository.getWeather("Cairo") } returns Result.failure(Exception("not found"))
 
         // When & Then
         assertThrows<Exception>{
