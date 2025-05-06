@@ -9,7 +9,7 @@ import org.example.data.model.WeatherApiResponse
 
 interface WeatherService {
 
-    suspend fun getWeather(city: String): Result<WeatherApiResponse>
+    suspend fun getWeather(city: String): WeatherApiResponse
     companion object {
         fun create(): WeatherService {
             val client = HttpClient(CIO) {

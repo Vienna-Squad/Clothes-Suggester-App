@@ -9,7 +9,7 @@ import org.example.domain.InvalidCityException
 class WeatherServiceImpl(
     private val client: HttpClient
 ) : WeatherService {
-        override suspend fun getWeather(city: String): Result<WeatherApiResponse> {
+        override suspend fun getWeather(city: String): WeatherApiResponse {
             return fetchWeather(
                 city = city,
                 url = "${ApiConfig.BASE_URL}${ApiConfig.CURRENT_WEATHER_ENDPOINT}"
@@ -19,16 +19,16 @@ class WeatherServiceImpl(
     private suspend fun fetchWeather(
         city: String,
         url: String,
-    ): Result<WeatherApiResponse> {
+    ): WeatherApiResponse {
         return try {
             if (city.isBlank()) throw InvalidCityException("City name cannot be empty")
             val response = client.get(url) {
                 parameter("key", ApiConfig.API_KEY)
                 parameter("q", city)
             }.body<WeatherApiResponse>()
-            Result.success(response)
+           response
         } catch (e: Exception) {
-            Result.failure(e)
+           throw Exception()
         }
     }
 

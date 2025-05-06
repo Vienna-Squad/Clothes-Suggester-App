@@ -4,6 +4,6 @@ import org.example.domain.entity.Weather
 
 interface WeatherRepository {
 
-    suspend fun getWeather(city:String):Result<Weather>
+    suspend fun getWeather(city:String):Weather
 
 }
