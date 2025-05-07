@@ -6,44 +6,35 @@ import org.example.domain.repository.WeatherRepository
 class SuggestClothesUseCase(
     private val weatherRepository: WeatherRepository
 ) {
-    suspend operator fun invoke(city: String): Result<ClothesSuggestion> {
+    suspend operator fun invoke(city: String): ClothesSuggestion {
 
-        weatherRepository.getWeather(city).onFailure {
-            throw Exception("not found")
-        }
-        return weatherRepository.getWeather(city).map { weather ->
-            when {
-
-                weather.temperature <= -5.0 -> ClothesSuggestion(
-                    top = "Heavy Jacket",
-                    bottom = "Thermal Pants",
-                    accessories = "Gloves"
-                )
-
-                weather.temperature <= 10.0 -> ClothesSuggestion(
-                    top = "Sweater",
-                    bottom = "Jeans",
-                    accessories = "Scarf"
-                )
-
-                weather.temperature <= 20.0 -> ClothesSuggestion(
-                    top = "Jacket",
-                    bottom = "Pants",
-                    accessories = "Umbrella"
-                )
-
-                weather.temperature in 25.0..50.0 -> ClothesSuggestion(
-                    top = "T-shirt",
-                    bottom = "Shorts",
-                    accessories = "Sunglasses"
-                )
-
-                else -> ClothesSuggestion(
-                    top = "Shirt",
-                    bottom = "Shorts",
-                    accessories = "None"
-                )
-            }
+        val weather = weatherRepository.getWeather(city)
+        return when (weather.temperature) {
+            in -30.0..4.9 -> ClothesSuggestion(
+                top = "Heavy Jacket",
+                bottom = "Thermal Pants",
+                accessories = "Gloves"
+            )
+            in 5.0..19.9 -> ClothesSuggestion(
+                top = "Sweater",
+                bottom = "Jeans",
+                accessories = "Scarf"
+            )
+            in 20.0..24.9 -> ClothesSuggestion(
+                top = "Jacket",
+                bottom = "Pants",
+                accessories = "Umbrella"
+            )
+            in 25.0..50.0 -> ClothesSuggestion(
+                top = "T-shirt",
+                bottom = "Shorts",
+                accessories = "Sunglasses"
+            )
+            else -> ClothesSuggestion(
+                top = "Shirt",
+                bottom = "Shorts",
+                accessories = "None"
+            )
         }
     }
 }
