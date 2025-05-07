@@ -11,27 +11,27 @@ data class WeatherApiResponse(
 
 @Serializable
 data class Location(
-    val name: String,
-    val region: String,
-    val country: String,
+    val name: String?,
+    val region: String?,
+    val country: String?,
     @SerialName("lat")
-    val latitude: Double,
+    val latitude: Double?,
     @SerialName("lon")
-    val longitude: Double,
-    val localtime: String
+    val longitude: Double?,
+    val localtime: String?
 )
 
 @Serializable
 data class CurrentWeather(
-    val temp_c: Double,
+    val temp_c: Double?,
 
     @SerialName("precip_mm")
-    val precipitationMm: Double,
+    val precipitationMm: Double?,
 
-    val humidity: Int,
+    val humidity: Int?,
 
     @SerialName("wind_kph")
-    val windSpeedKph: Double,
+    val windSpeedKph: Double?,
 
     val condition: Condition
 )
@@ -39,8 +39,8 @@ data class CurrentWeather(
 @Serializable
 data class Condition(
     @SerialName("text")
-    val text: String,
+    val description: String?,
 
     @SerialName("icon")
-    val iconUrl: String
+    val iconUrl: String?
 )

@@ -3,21 +3,25 @@ package data.repository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import org.example.data.mapper.WeatherMapper
 import org.example.data.model.Condition
 import org.example.data.model.CurrentWeather
 import org.example.data.model.Location
 import org.example.data.model.WeatherApiResponse
 import org.example.data.remote.WeatherService
 import org.example.data.repository.WeatherRepositoryImpl
-import org.example.domain.CityNotFoundException
+import org.example.domain.InvalidCityException
+import org.example.domain.entity.Weather
 import org.example.domain.repository.WeatherRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 
 class WeatherRepositoryImplTest {
     private lateinit var weatherService: WeatherService
     private lateinit var repository: WeatherRepository
+    private lateinit var weatherMapper: WeatherMapper
 
     private val mockResponse = WeatherApiResponse(
         location = Location(
@@ -39,55 +43,66 @@ class WeatherRepositoryImplTest {
             )
         )
     )
+    private val mockWeather = Weather(
+        city = "Cairo",
+        country = "Egypt",
+        time = "2025-05-06 12:00",
+        temperature = 25.0,
+        description = "Sunny"
+    )
 
     @BeforeEach
     fun setup() {
         weatherService = mockk(relaxed = true)
-        repository = WeatherRepositoryImpl(weatherService)
+        weatherMapper=mockk(relaxed = true)
+        repository = WeatherRepositoryImpl(weatherService,weatherMapper)
     }
+
 
     @Test
     fun `getWeather should return Weather when API call is successful`() = runTest {
         // Given
-        coEvery { weatherService.getWeather("Cairo") } returns Result.success(mockResponse)
-
-        // Then
-        val result = repository.getWeather("Cairo")
+        coEvery { weatherService.getWeather("Cairo") } returns mockResponse
+        coEvery { weatherMapper.mapDtoToWeather(mockResponse) } returns mockWeather
 
         // When
-        assertTrue(result.isSuccess)
-        val weather = result.getOrNull()
-        assertEquals("Cairo", weather?.city)
-        assertEquals("Egypt", weather?.country)
-        assertEquals(25.0, weather?.temperature)
-        assertEquals("Sunny", weather?.description)
+        val weather = repository.getWeather("Cairo")
+
+        // Then
+        assertEquals("Cairo", weather.city)
+        assertEquals("Egypt", weather.country)
+        assertEquals(25.0, weather.temperature)
     }
 
+
+
+
     @Test
-    fun `getWeather should return failure when API call fails`() = runTest {
+    fun `getWeather should throw exception when API call fails`() = runTest {
         // Given
         val exception = RuntimeException("API Error")
-        coEvery { weatherService.getWeather("Cairo") } returns Result.failure(exception)
+        coEvery { weatherService.getWeather("Cairo") } throws exception
 
-        // when
-        val result = repository.getWeather("Cairo")
-
-        // Then
-        assertTrue(result.isFailure)
+        // When & Then
+        val thrownException = assertThrows<RuntimeException> {
+            repository.getWeather("Cairo")
+        }
+        assertEquals("API Error", thrownException.message)
     }
 
+
+
+
     @Test
-    fun `getWeather should return failure when city is not found`() = runTest {
-        //Given
-        coEvery { weatherService.getWeather("InvalidCity") } returns Result.failure(CityNotFoundException("City 'InvalidCity' not found"))
+    fun `getWeather should throw InvalidCityException when city is not found`() = runTest {
+        // Given
+        coEvery { weatherService.getWeather("InvalidCity") } throws InvalidCityException("City 'InvalidCity' not found")
 
-        //When
-        val result = repository.getWeather("InvalidCity")
-
-        // Then
-        assertTrue(result.isFailure)
-        val exception = result.exceptionOrNull()
-        assertEquals("City 'InvalidCity' not found", exception?.message)
+        // When & Then
+        val thrownException = assertThrows<InvalidCityException> {
+            repository.getWeather("InvalidCity")
+        }
+        assertEquals("City 'InvalidCity' not found", thrownException.message)
     }
 
 
