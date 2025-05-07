@@ -4,7 +4,6 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.example.data.model.WeatherApiResponse
-import org.example.domain.InvalidCityException
 
 class WeatherServiceImpl(
     private val client: HttpClient
@@ -21,16 +20,17 @@ class WeatherServiceImpl(
         url: String,
     ): WeatherApiResponse {
         return try {
-            if (city.isBlank()) throw InvalidCityException("City name cannot be empty")
             val response = client.get(url) {
                 parameter("key", ApiConfig.API_KEY)
                 parameter("q", city)
             }.body<WeatherApiResponse>()
-           response
-        } catch (e: Exception) {
-           throw Exception()
+            response
+        }
+        catch (e: Exception) {
+            throw Exception("Invalid request for city: $city")
         }
     }
+
 
 
 }
