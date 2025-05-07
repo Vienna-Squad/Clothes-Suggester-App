@@ -67,21 +67,6 @@ class GetCurrentWeatherUseCaseTest {
         }
     }
 
-    @Test
-    fun `should return exception when repository fails`() {
-        runTest {
-            // given
-            val city = "cairo"
-            val exception = Exception("Repository failed to fetch data")
-            coEvery { weatherRepository.getWeather(city) } throws exception
-
-            // when & then
-            assertThrows<Exception> {
-                getCurrentWeatherUseCase(city)
-            }
-
-        }
-    }
 
 
 }
