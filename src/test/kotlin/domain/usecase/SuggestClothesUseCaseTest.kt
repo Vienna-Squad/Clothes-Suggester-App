@@ -25,7 +25,7 @@ class SuggestClothesUseCaseTest {
     fun `should suggest light clothes for hot weather`() = runTest {
         // Given
         val weather = createWeather(temperature = 30.0)
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        coEvery { weatherRepository.getWeather("Cairo") } returns weather
         val expected = ClothesSuggestion(
             top = "T-shirt",
             bottom = "Shorts",
@@ -36,14 +36,14 @@ class SuggestClothesUseCaseTest {
         val result = suggestClothesUseCase.invoke("Cairo")
 
         // Then
-        assertEquals(expected, result.getOrNull())
+        assertEquals(expected, result)
     }
 
     @Test
     fun `should suggest very light clothes for very hot weather`() = runTest {
         // Given
         val weather = createWeather(temperature = 60.0)
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        coEvery { weatherRepository.getWeather("Cairo") } returns weather
         val expected = ClothesSuggestion(
             top = "Shirt",
             bottom = "Shorts",
@@ -54,14 +54,14 @@ class SuggestClothesUseCaseTest {
         val result = suggestClothesUseCase.invoke("Cairo")
 
         // Then
-        assertEquals(expected, result.getOrNull())
+        assertEquals(expected, result)
     }
 
     @Test
     fun `should suggest warm clothes for cold weather`() = runTest {
         // Given
         val weather = createWeather(temperature = 5.0)
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        coEvery { weatherRepository.getWeather("Cairo") } returns weather
         val expected = ClothesSuggestion(
             top = "Sweater",
             bottom = "Jeans",
@@ -72,14 +72,14 @@ class SuggestClothesUseCaseTest {
         val result = suggestClothesUseCase.invoke("Cairo")
 
         // Then
-        assertEquals(expected, result.getOrNull())
+        assertEquals(expected, result)
     }
 
     @Test
     fun `should suggest rain gear for rainy weather`() = runTest {
         // Given
         val weather = createWeather(temperature = 20.0)
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        coEvery { weatherRepository.getWeather("Cairo") } returns weather
         val expected = ClothesSuggestion(
             top = "Jacket",
             bottom = "Pants",
@@ -90,14 +90,14 @@ class SuggestClothesUseCaseTest {
         val result = suggestClothesUseCase.invoke("Cairo")
 
         // Then
-        assertEquals(expected, result.getOrNull())
+        assertEquals(expected, result)
     }
 
     @Test
     fun `should suggest heavy clothes for snow weather`() = runTest {
         // Given
         val weather = createWeather(temperature = -10.0)
-        coEvery { weatherRepository.getWeather("Cairo") } returns Result.success(weather)
+        coEvery { weatherRepository.getWeather("Cairo") } returns weather
         val expected = ClothesSuggestion(
             top = "Heavy Jacket",
             bottom = "Thermal Pants",
@@ -108,7 +108,7 @@ class SuggestClothesUseCaseTest {
         val result = suggestClothesUseCase.invoke("Cairo")
 
         // Then
-        assertEquals(expected, result.getOrNull())
+        assertEquals(expected, result)
     }
 
     private fun createWeather(
