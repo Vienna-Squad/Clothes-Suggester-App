@@ -1,8 +1,7 @@
 package org.example.presentation.controller
 
 import org.example.domain.usecase.SuggestClothesUseCase
-import org.example.presentation.UiController
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.getKoin
 
 class SuggestClothesController(
     private val suggestClothesUseCase: SuggestClothesUseCase = getKoin().get()
