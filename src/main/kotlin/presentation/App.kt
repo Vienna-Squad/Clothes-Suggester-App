@@ -1,15 +1,24 @@
 package org.example.presentation
 
+import org.example.presentation.MenuItem.EXIT
 import org.example.presentation.MenuItem.entries
 
 class App {
       suspend fun start() {
-        MenuItem.entries.forEachIndexed { index, option -> print("\n${index + 1}.\t${option.title}") }
+          println("\n\u001B[34m==========================================\u001B[0m")
+          println("\u001B[34m         Welcome to WeatherWear CLI       \u001B[0m")
+          println("\u001B[34m==========================================\u001B[0m\n")
+          println("Please select an option:\n")
+          entries.forEachIndexed { index, option ->
+              println("\u001B[32m${index + 1}.\t${option.title}\u001B[0m${if (option == MenuItem.EXIT) " (Closes the app)" else ""}")
+          }
         print("\nEnter your choice (1-${MenuItem.entries.size}): ")
         getMenuItemByIndex(readln().toIntOrNull() ?: -1).also { option ->
-            option?.execute()
+            option.execute()
+            if (option == MenuItem.EXIT) return
             start()
         }
     }
-    private fun getMenuItemByIndex(input: Int) = entries.getOrNull(input - 1)
+    private fun getMenuItemByIndex(input: Int) = entries.getOrNull(input - 1) ?: EXIT
+
 }
