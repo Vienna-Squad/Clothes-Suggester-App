@@ -45,6 +45,7 @@ class WeatherRepositoryImplTest {
     )
     private val mockWeather = Weather(
         city = "Cairo",
+        region = "Al Qahirah",
         country = "Egypt",
         time = "2025-05-06 12:00",
         temperature = 25.0,

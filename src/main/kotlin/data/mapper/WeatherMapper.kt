@@ -9,6 +9,8 @@ class WeatherMapper {
         return Weather(
             city = weatherApiResponse.location.name
                 ?: throw InvalidCityException("City name is missing in API response"),
+            region = weatherApiResponse.location.region
+                ?: throw InvalidRegionException("Region name is missing in API response"),
             country = weatherApiResponse.location.country
                 ?: throw InvalidCountryException("country name is missing in API response"),
             time = weatherApiResponse.location.localtime

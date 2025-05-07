@@ -75,6 +75,19 @@ class WeatherMapperTest {
         }
         assertEquals("country name is missing in API response", thrownException.message)
     }
+    @Test
+    fun `mapDtoToWeather should throw InvalidRegionException when country is null`() {
+        // Given
+        val invalidResponse = mockResponse.copy(
+            location = mockResponse.location.copy(region = null)
+        )
+
+        // When & Then
+        val thrownException = assertThrows<InvalidRegionException> {
+            weatherMapper.mapDtoToWeather(invalidResponse)
+        }
+        assertEquals("Region name is missing in API response", thrownException.message)
+    }
 
     @Test
     fun `mapDtoToWeather should throw InvalidLocalTimeException when localtime is null`() {
