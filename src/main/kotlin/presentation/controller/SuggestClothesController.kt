@@ -21,8 +21,7 @@ class SuggestClothesController(
             println("accessories : ${result.accessories}")
 
         } catch (e: Exception) {
-            println("Error: Failed to get clothing suggestion")
-
+            println("Error : invalid city")
         }
 
     }
