@@ -5,7 +5,7 @@ import org.example.presentation.UiController
 import org.koin.java.KoinJavaComponent
 
 class SuggestClothesController(
-    private val suggestClothesUseCase: SuggestClothesUseCase = KoinJavaComponent.getKoin().get()
+    private val suggestClothesUseCase: SuggestClothesUseCase = getKoin().get()
 ) : UiController {
 
     override suspend fun execute() {
@@ -26,4 +26,6 @@ class SuggestClothesController(
         }
 
     }
+
 }
+

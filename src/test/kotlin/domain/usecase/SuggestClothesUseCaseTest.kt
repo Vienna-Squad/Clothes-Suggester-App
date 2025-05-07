@@ -116,11 +116,13 @@ class SuggestClothesUseCaseTest {
         description: String = " ",
         city: String = "Cairo",
         country: String = "Egypt",
+        region:String = "Al Qahirah",
         time: String = "2025-05-06 | 12:00:00"
     ): Weather {
         return Weather(
             city = city,
             country = country,
+            region = region,
             time = time,
             temperature = temperature,
             description = description
