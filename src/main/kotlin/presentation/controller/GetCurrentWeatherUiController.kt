@@ -1,7 +1,6 @@
 package org.example.presentation.controller
 
 import org.example.domain.usecase.GetCurrentWeatherUseCase
-import org.example.presentation.UiController
 import org.koin.java.KoinJavaComponent.getKoin
 
 
@@ -16,19 +15,20 @@ class GetCurrentWeatherUiController(
 
         try {
             val weatherResult = getCurrentWeatherUseCase(city)
-            weatherResult.onSuccess { weather ->
-                println("Weather at : ${weather.city}")
-                println("Country : ${weather.country}")
-                println("Temperature : ${weather.temperature}")
-                println("Description : ${weather.description}")
+            println("\n\u001B[34m==========================================\u001B[0m")
+            println("\u001B[34m           Weather Information            \u001B[0m")
+            println("\u001B[34m==========================================\u001B[0m")
+            println("City : ${weatherResult.city}")
+            println("Country : ${weatherResult.country}")
+            println("Temperature : ${weatherResult.temperature}°C")
+            println("Description : ${weatherResult.description}")
 
-            }
         } catch (e: Exception) {
-            println("Invalid city name, please enter a valid city.")
+
+            println("Invalid city name, please enter a valid city. ${e.message}")
         }
 
 
     }
-
 
 }

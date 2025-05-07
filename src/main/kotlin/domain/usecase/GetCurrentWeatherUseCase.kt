@@ -7,7 +7,7 @@ class GetCurrentWeatherUseCase(
     private val weatherRepository: WeatherRepository
 ) {
 
-    suspend operator fun invoke(city: String): Result<Weather> {
+    suspend operator fun invoke(city: String): Weather {
         return  weatherRepository.getWeather(city)
     }
 }
