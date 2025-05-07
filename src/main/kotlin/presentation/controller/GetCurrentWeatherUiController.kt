@@ -1,11 +1,11 @@
 package org.example.presentation.controller
 
 import org.example.domain.usecase.GetCurrentWeatherUseCase
-import org.example.presentation.UiController
+import org.koin.java.KoinJavaComponent.getKoin
 
 
 class GetCurrentWeatherUiController(
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase = getKoin().get(),
 ) : UiController {
 
     override suspend fun execute() {
@@ -18,6 +18,7 @@ class GetCurrentWeatherUiController(
             println("\u001B[34m           Weather Information            \u001B[0m")
             println("\u001B[34m==========================================\u001B[0m")
             println("City : ${weatherResult.city}")
+            println("Region : ${weatherResult.region}")
             println("Country : ${weatherResult.country}")
             println("Temperature : ${weatherResult.temperature}°C")
             println("Description : ${weatherResult.description}")
@@ -28,6 +29,5 @@ class GetCurrentWeatherUiController(
 
 
     }
-
 
 }

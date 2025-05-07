@@ -19,6 +19,7 @@ class GetCurrentWeatherUseCaseTest {
 
     val dummyWeather = Weather(
         city = "Cairo",
+        region = "Al Qahirah",
         country = "Egypt",
         time = "2025-05-06T12:00:00Z",
         temperature = 30.0,

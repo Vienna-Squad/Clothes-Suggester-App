@@ -8,6 +8,7 @@ class GetCurrentWeatherUseCase(
 ) {
 
     suspend operator fun invoke(city: String): Weather {
-        return weatherRepository.getWeather(city)
+        return  weatherRepository.getWeather(city)
+
     }
 }
