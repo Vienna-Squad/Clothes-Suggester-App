@@ -6,7 +6,7 @@ object Gemini {
     fun createClient(): GenerativeModel {
         return GenerativeModel(
             modelName = "gemini-2.0-flash",
-            apiKey = "AIzaSyAB4INndt4sGxXGSqd064mFb2KcMHEk3_o"
+            apiKey = ApiConfig.GEMINI_API_KEY
         )
     }
 

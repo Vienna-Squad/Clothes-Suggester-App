@@ -11,4 +11,9 @@ object ApiConfig {
         properties.load(FileInputStream("local.properties"))
         properties.getProperty("api.key") ?: throw IllegalStateException("API key not found in local.properties")
     }
+    val GEMINI_API_KEY: String by lazy {
+        val properties = Properties()
+        properties.load(FileInputStream("key.properties"))
+        properties.getProperty("API_KEY") ?: throw IllegalStateException("API key not found in local.properties")
+    }
 }
