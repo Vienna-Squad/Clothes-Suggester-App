@@ -21,7 +21,7 @@ class WeatherServiceImpl(
     ): WeatherApiResponse {
         return try {
             val response = client.get(url) {
-                parameter("key", ApiConfig.API_KEY)
+                parameter("key", ApiConfig.WEATHER_API_KEY)
                 parameter("q", city)
             }.body<WeatherApiResponse>()
             response

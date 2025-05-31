@@ -10,8 +10,10 @@ class WeatherRepositoryImpl(
     private val weatherMapper: WeatherMapper
 ) : WeatherRepository {
     override suspend fun getWeather(city: String): Weather {
+        
         val res = weatherService.getWeather(city)
         return weatherMapper.mapDtoToWeather(res)
+        
     }
 }
 

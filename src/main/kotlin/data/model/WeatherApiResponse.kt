@@ -24,15 +24,11 @@ data class Location(
 @Serializable
 data class CurrentWeather(
     val temp_c: Double?,
-
     @SerialName("precip_mm")
     val precipitationMm: Double?,
-
     val humidity: Int?,
-
     @SerialName("wind_kph")
     val windSpeedKph: Double?,
-
     val condition: Condition
 )
 
@@ -40,7 +36,6 @@ data class CurrentWeather(
 data class Condition(
     @SerialName("text")
     val description: String?,
-
     @SerialName("icon")
     val iconUrl: String?
 )
